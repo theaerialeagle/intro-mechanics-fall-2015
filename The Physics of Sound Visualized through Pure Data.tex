@@ -1,0 +1,107 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{caption}
+
+\begin{document}
+
+\title{The Physics of Sound Visualized through Pure Data}
+\author{La Zhen Han}
+\maketitle
+
+\section{Introduction}
+
+This conference project explores sound and its visualization using the programming language Pure Data (Pd). Through Pd, sound waves can be dynamically demonstrated and linked to the fundamental physics that governs sound and its wave behavior.
+
+\section{Background Physics}
+
+The science of sound has connections to many areas of research, including acoustics, mathematics, engineering, psychology, and physiology.~\cite{olson} On a deeper level, however, sound refers to the propagation of change in particle displacement caused by a vibrating body or system, as well as the auditory experience produced by such movement.~\cite{olson,backus} Sound waves can be defined by several physical characteristics, primarily amplitude, frequency and period, velocity, wavelength, and phase.
+
+Sound waves must also have an accompanying medium through which to travel, and that medium can have one, two, or three dimensions. The movement of sound waves in these various dimensions can be broadly described as being analogous to waves moving along a string (one dimension), waves moving along a surface such as a membrane (two dimensions), and waves moving throughout a surrounding atmosphere (three dimensions).~\cite{backus} The medium has its own important characteristics, such as density and elasticity, that affect the nature of the wave.~\cite{backus}
+
+\subsection{Amplitude}
+
+The amplitude of a wave is the maximum displacement experienced by the medium through which the sound wave is traveling.~\cite{wood} It is described as the distance between the crest and the trough, measured from the average or mean position of the wave.~\cite{wood} 
+
+\subsection{Frequency and Period}
+
+The frequency of a wave is denoted as: $$f = 1/T$$
+where T = the period of the wave, or the time between peaks; therefore, the frequency is the number of peaks per second. Frequencies can be described using Hertz, a term named after the physicist Heinrich Hertz.~\cite{pierce,olson} Similarly: $$T = 1/f$$
+
+\subsection{Velocity}
+
+The velocity of a sound wave is the velocity of its propagation. It depends directly on the density and elasticity of the medium, and for a gas is governed by the following equation: $$ c = \sqrt{\frac{\gamma p_{0}}{\rho}}$$
+where $c$ = velocity, $\gamma$ = the ratio of specific heats of the gas, $p_{0}$ = static or ambient pressure of the gas, and $\rho$ = density of the gas.~\cite{olson,backus}
+The velocity of sound waves through air, for instance, can be calculated using: $$c = 33,100\sqrt{1 + 0.00366t}$$
+where $t$ = the temperature measured in degrees centigrade.~\cite{olson}
+
+Related to the velocity of the sound wave is the velocity of the particles being displaced by the wave. For a sound wave propagating through air during speech, the average displacement is minuscule, on the scale of micrometers, and oscillates at the same rate as the wave. This displacement is related to sound pressure and velocity through the equation: $$p = \rho cu$$
+where $p$ = sound pressure, $\rho$ = density of the air, and $u$ = velocity of the particles.~\cite{olson} The size of the displacement of a particle from its original position before being reached by a sound wave (or the amplitude of the sound wave) can also be calculated: $$d = \frac{u}{2\pi f}$$
+where $d$ = the particle's displacement.
+
+\subsection{Wavelength}
+
+The wavelength of a sound wave ($\lambda$) is the distance it takes for the wave to complete one cycle. It can be described by the formula ~\cite{olson}: $$\lambda = \frac{c}{f}$$
+This means that velocity of the wave itself can also be stated as a product of the wavelength and frequency: $$c = \lambda f$$
+
+\subsection{Phase}
+
+The phase of a wave refers to its position compared to a particular starting or observation point. Two waves may have identical frequencies and amplitudes yet be separate waves depending on their displacement relative to each other. 
+
+\subsection{Types of Sound Waves}
+
+The simplest type of wave is a sine wave, which produces a smooth, undulating pattern and is the result of air pressure increasing and decreasing in a periodic manner. Other types of waves (such as square, sawtooth, and triangle) can be formed by summing waves of varying frequency, amplitude, and phase. This process of breaking down periodic elements into sine and cosine waves is called Fourier analysis and the combined waves a Fourier series, named after Jean-Baptiste Fourier. Partials are waves in a Fourier series with different frequencies that can be added to each other to produce different types of sounds, as well as change a sound's perceived qualities, such as brightness or dullness. Musically, partials correspond to the notes in a scale. Each note in a scale has various harmonics or partials associated with it; chords, which are specific combinations of notes, are created using partials .~\cite{hillerson,pierce,backus}
+
+\section{Pure Data}
+
+Pure Data can be used to visualize multiple types of waves, as well as explore their various attributes, such as amplitude and frequency.
+
+\subsection{Basics of Programming}
+
+Pd is a visual programming language. The information contained within the code is displayed in a visual architecture and executes according to connections made between various controls.
+
+The primary elements (called atoms) of Pd relevant to creating waves with the program are objects, messages, numbers, and arrays, which are indicated by various types of boxes. Objects take a class name and arguments, related to the way text-based programming languages have classes and function calls. Messages send information to objects. Numbers can be inserted into various section to store values. Arrays contain a table of information which is then presented in the form of a graph. Other types of code that can be used in Pd include toggle on/off buttons, sliders, and output controls that affect volume and sound.
+
+Depending on the type of code used, each atom will have inlet and outlet controls at the top and bottom sides of their respective boxes. Lines can be traced from outlet to inlet to specify how the code should flow from start to end.
+
+\subsection{Visualizing Sound Waves}
+
+A simple sine wave can be created using objects, a number, and an array. The loadbang object instructs the code to load when the window opens and prompts (bangs) the rest of the code to run. The message beneath loadbang specifies the frequency in Hertz (440), the type of wave to be displayed (sine), the number of data points to send to the array (1024), the amplitudes of the partials to generate (1, which is called the fundamental partial), and the way the values of the array's contents should be adjusted in terms of volume (normalize 1).
+
+The 440 number beneath the message sends more frequency information to the following object, which is tabosc4~ sine, an object that creates an oscillator that takes the data from the table contained within the array. tabosc4~ sends its oscillations to the object dac~, or digital to analog converter, which produces an audible tone at 440 Hz.
+
+\begin{figure}
+\includegraphics[scale=0.8]{sinewave.png}}
+\caption{Sine wave}
+\end{figure}
+
+Other types of waves can be generated in a similar manner, with additional partials specified for each type.
+
+Square waves include odd harmonic partials above the fundamental:
+
+\begin{figure}
+\includegraphics[scale=0.8]{squarewave.png}}
+\caption{Square wave}
+\end{figure}
+
+Triangle waves include positive and negative partials:
+
+\begin{figure}
+\includegraphics[scale=.8]{trianglewave.png}
+\caption{Triangle wave}
+\end{figure}
+
+Saw waves include all of the harmonics above the fundamental partial:
+
+\begin{figure}
+\includegraphics[scale=.8]{sawwave.png}
+\caption{Saw wave}
+\end{figure}
+
+\clearpage
+
+\nocite{*}
+\bibliography{bibliography}
+\bibliographystyle{plain}
+
+\end{document}
